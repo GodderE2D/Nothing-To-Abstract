@@ -11,6 +11,8 @@ const client = new Discord.Client({
     Discord.IntentsBitField.Flags.Guilds,
     Discord.IntentsBitField.Flags.GuildMessages,
     Discord.IntentsBitField.Flags.MessageContent,
+    Discord.IntentsBitField.Flags.GuildPresences,
+    Discord.IntentsBitField.Flags.GuildMembers,
   ],
   allowedMentions: {
     repliedUser: false,
