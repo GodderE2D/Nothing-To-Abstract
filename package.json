@@ -18,7 +18,7 @@
   "homepage": "https://github.com/GodderE2D/Nothing-To-Abstract#readme",
   "dependencies": {
     "@sapphire/type": "^2.4.0",
-    "discord.js": "^14.11.0",
+    "discord.js": "^14.12.1",
     "dotenv": "^16.3.1"
   }
 }
