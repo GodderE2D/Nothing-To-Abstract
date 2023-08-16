@@ -37,7 +37,7 @@ export default function formatEvalReply<TReturn>(
       content: metadata,
       files: [
         new AttachmentBuilder(Buffer.from(typeof result === "string" ? result : inspect(result)), {
-          name: "result.js",
+          name: `result.${isAnsi ? "ansi" : "js"}`,
         }),
       ],
     };
