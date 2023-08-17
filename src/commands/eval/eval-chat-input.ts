@@ -101,7 +101,7 @@ export class EvalCommand extends Subcommand {
   public async chatInputModal(interaction: Subcommand.ChatInputCommandInteraction) {
     const hide = interaction.options.getBoolean("hide") ?? true;
     const isAnsi = interaction.options.getBoolean("ansi") ?? false;
-    const type = (interaction.options.getString("type") ?? undefined) as "f" | "fr" | undefined;
+    const type = (interaction.options.getString("type") ?? undefined) as "f" | "fr" | "default" | undefined;
 
     const modal = new ModalBuilder()
       .setCustomId("eval_modal")
