@@ -2,13 +2,14 @@
 import d, {
   ActionRowBuilder,
   AttachmentBuilder,
+  BaseInteraction,
   ButtonBuilder,
   ButtonStyle,
   ChannelSelectMenuBuilder,
   type ChatInputCommandInteraction,
   EmbedBuilder,
   MentionableSelectMenuBuilder,
-  type Message,
+  Message,
   MessageContextMenuCommandInteraction,
   ModalBuilder,
   type ModalSubmitInteraction,
@@ -44,6 +45,11 @@ export default async function evalWithUtils(
 
   // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   const { button, menu } = prepareInteractions(ctx);
+
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+  const interaction = ctx instanceof BaseInteraction ? ctx : undefined;
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+  const message = ctx instanceof Message ? ctx : undefined;
 
   const types = {
     default: input,
