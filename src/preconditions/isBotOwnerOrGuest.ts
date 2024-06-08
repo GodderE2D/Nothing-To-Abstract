@@ -1,4 +1,4 @@
-import { AllFlowsPrecondition, Piece } from "@sapphire/framework";
+import { AllFlowsPrecondition } from "@sapphire/framework";
 import { ChatInputCommandInteraction, ContextMenuCommandInteraction, Message, Snowflake } from "discord.js";
 
 import { botGuests, env } from "../index.js";
@@ -27,7 +27,7 @@ const FACTS = [
 ];
 
 export class IsBotOwnerOrGuestPrecondition extends AllFlowsPrecondition {
-  public constructor(context: Piece.Context, options: AllFlowsPrecondition.Options) {
+  public constructor(context: AllFlowsPrecondition.LoaderContext, options: AllFlowsPrecondition.Options) {
     super(context, {
       ...options,
       position: 20,
