@@ -3,7 +3,7 @@ import { Events, Listener, MessageCommandErrorPayload } from "@sapphire/framewor
 import { handleCommandError } from "../../functions/handleError.js";
 
 export class MessageCommandErrorListener extends Listener {
-  public constructor(context: Listener.Context, options: Listener.Options) {
+  public constructor(context: Listener.LoaderContext, options: Listener.Options) {
     super(context, {
       ...options,
       once: false,

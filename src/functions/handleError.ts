@@ -17,10 +17,8 @@ export async function handleCommandError(error: unknown, footer: string, channel
 
   const internalChannel = client.channels.cache.get(channel ?? env.ERROR_LOGS_CHANNEL_ID);
 
-  if (!internalChannel?.isTextBased()) {
-    return logger.warn(
-      `Unable to send error log message, channel ${internalChannel?.id} is not text-based or doesn't exist.`,
-    );
+  if (!internalChannel?.isSendable()) {
+    return logger.warn(`Unable to send error log message, cannot send messages in channel ${internalChannel?.id}.`);
   }
 
   const message = await internalChannel.send({ embeds: [embed] });

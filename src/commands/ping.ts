@@ -38,10 +38,12 @@ export class PingCommand extends Command {
 
     const sent = await interaction.reply({
       embeds: [checkingEmbed],
-      fetchReply: true,
+      withResponse: true,
     });
 
-    const roundtripLatency = sent.createdTimestamp - interaction.createdTimestamp;
+    if (!sent.resource?.message) throw new Error("Missing resource response");
+
+    const roundtripLatency = sent.resource.message.createdTimestamp - interaction.createdTimestamp;
 
     const successEmbed = new EmbedBuilder()
       .setColor(colours.darkModeBg)

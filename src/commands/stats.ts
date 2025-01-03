@@ -1,5 +1,5 @@
 import { ChatInputCommand, Command } from "@sapphire/framework";
-import { EmbedBuilder } from "discord.js";
+import { EmbedBuilder, MessageFlags } from "discord.js";
 
 import colours from "../constants/colours.js";
 
@@ -63,7 +63,7 @@ export class StatsCommand extends Command {
 
     return await interaction.reply({
       embeds: [embed],
-      ephemeral: hide,
+      flags: hide ? MessageFlags.Ephemeral : undefined,
     });
   }
 }

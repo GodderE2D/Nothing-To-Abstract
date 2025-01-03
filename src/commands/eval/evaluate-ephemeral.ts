@@ -1,5 +1,10 @@
 import { Command, ContextMenuCommand } from "@sapphire/framework";
-import { ApplicationCommandType, InteractionReplyOptions, MessageContextMenuCommandInteraction } from "discord.js";
+import {
+  ApplicationCommandType,
+  InteractionReplyOptions,
+  MessageContextMenuCommandInteraction,
+  MessageFlags,
+} from "discord.js";
 
 import evalWithUtils from "../../functions/evalWithUtils.js";
 import formatEvalReply from "../../functions/formatEvalReply.js";
@@ -29,7 +34,7 @@ export class EvaluateEphemeralCommand extends Command {
     const isAnsi = rawArgs.startsWith("-a ");
     if (isAnsi) rawArgs = rawArgs.slice("-a ".length);
 
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
     const code = parseCode(rawArgs);
     const startTime = Date.now();

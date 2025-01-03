@@ -1,5 +1,5 @@
 import { ChatInputCommand, Command } from "@sapphire/framework";
-import { OAuth2Scopes, PermissionFlagsBits } from "discord.js";
+import { MessageFlags, OAuth2Scopes, PermissionFlagsBits } from "discord.js";
 
 export class InviteCommand extends Command {
   public constructor(context: Command.Context, options: Command.Options) {
@@ -33,6 +33,9 @@ export class InviteCommand extends Command {
       scopes: [OAuth2Scopes.Bot, OAuth2Scopes.ApplicationsCommands],
     });
 
-    return await interaction.reply({ content: `[Here's](${inviteLink}) your invite link.`, ephemeral: hide });
+    return await interaction.reply({
+      content: `[Here's](${inviteLink}) your invite link.`,
+      flags: hide ? MessageFlags.Ephemeral : undefined,
+    });
   }
 }

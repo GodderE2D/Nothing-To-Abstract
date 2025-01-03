@@ -1,5 +1,11 @@
 import { AllFlowsPrecondition } from "@sapphire/framework";
-import { ChatInputCommandInteraction, ContextMenuCommandInteraction, Message, Snowflake } from "discord.js";
+import {
+  ChatInputCommandInteraction,
+  ContextMenuCommandInteraction,
+  Message,
+  MessageFlags,
+  Snowflake,
+} from "discord.js";
 
 import { botGuests, env } from "../index.js";
 
@@ -47,7 +53,7 @@ export class IsBotOwnerOrGuestPrecondition extends AllFlowsPrecondition {
     } else {
       interaction.reply({
         content: `**\` 403 \`** ${FACTS[Math.floor(Math.random() * FACTS.length)]}`,
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
       return this.error();
     }
@@ -59,7 +65,7 @@ export class IsBotOwnerOrGuestPrecondition extends AllFlowsPrecondition {
     } else {
       interaction.reply({
         content: `**\` 403 \`** ${FACTS[Math.floor(Math.random() * FACTS.length)]}`,
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
       return this.error();
     }

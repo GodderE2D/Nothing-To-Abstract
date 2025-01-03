@@ -1,6 +1,13 @@
 import { ChatInputCommand } from "@sapphire/framework";
 import { Subcommand } from "@sapphire/plugin-subcommands";
-import { ActionRowBuilder, InteractionReplyOptions, ModalBuilder, TextInputBuilder, TextInputStyle } from "discord.js";
+import {
+  ActionRowBuilder,
+  InteractionReplyOptions,
+  MessageFlags,
+  ModalBuilder,
+  TextInputBuilder,
+  TextInputStyle,
+} from "discord.js";
 
 import evalWithUtils from "../../functions/evalWithUtils.js";
 import formatEvalReply from "../../functions/formatEvalReply.js";
@@ -87,7 +94,7 @@ export class EvalCommand extends Subcommand {
     const code = parseCode(interaction.options.getString("code", true));
     const type = (interaction.options.getString("type") ?? undefined) as "f" | "fr" | "default" | undefined;
 
-    await interaction.deferReply({ ephemeral: hide });
+    await interaction.deferReply({ flags: hide ? MessageFlags.Ephemeral : undefined });
     const startTime = Date.now();
 
     try {
@@ -115,10 +122,12 @@ export class EvalCommand extends Subcommand {
     await interaction.showModal(modal);
     const modalInteraction = await interaction
       .awaitModalSubmit({ time: 1000 * 60 * 14 })
-      .catch(() => void interaction.followUp({ content: "You took too long to respond.", ephemeral: true }));
+      .catch(
+        () => void interaction.followUp({ content: "You took too long to respond.", flags: MessageFlags.Ephemeral }),
+      );
 
     if (!modalInteraction) return;
-    await modalInteraction.reply({ content: "Evaluating...", ephemeral: hide });
+    await modalInteraction.reply({ content: "Evaluating...", flags: hide ? MessageFlags.Ephemeral : undefined });
 
     const code = parseCode(modalInteraction.fields.getTextInputValue("code"));
     const startTime = Date.now();

@@ -18,7 +18,7 @@ import d, {
   TextInputStyle,
 } from "discord.js";
 
-import pkg from "../../package.json" assert { type: "json" };
+import pkg from "../../package.json" with { type: "json" };
 import { botGuests, client, env, logger } from "../index.js";
 import { cp, scp } from "./evalUtils/cp.js";
 import { prepareInteractions } from "./evalUtils/createInteractions.js";
@@ -29,9 +29,11 @@ export default async function evalWithUtils(
   type?: "default" | "f" | "fr",
 ) {
   // "Use" the imported variables so tsc doesn't tree-shake them
+  /* eslint-disable @typescript-eslint/no-unused-expressions */
   [d, ActionRowBuilder, AttachmentBuilder, ButtonBuilder, ButtonStyle, ChannelSelectMenuBuilder, EmbedBuilder];
   [MentionableSelectMenuBuilder, ModalBuilder, RoleSelectMenuBuilder, StringSelectMenuBuilder, TextInputStyle, pkg];
   [botGuests, client, env, logger, cp, scp];
+  /* eslint-enable @typescript-eslint/no-unused-expressions */
 
   // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   const { connect, get, del, head, options, patch, post, put, trace } = prepareHttp({

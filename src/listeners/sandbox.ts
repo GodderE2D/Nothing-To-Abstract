@@ -1,11 +1,19 @@
 import { isGuildMember } from "@sapphire/discord.js-utilities";
 import { Events, Listener } from "@sapphire/framework";
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, GuildFeature, Interaction, time } from "discord.js";
+import {
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  GuildFeature,
+  Interaction,
+  MessageFlags,
+  time,
+} from "discord.js";
 
 import { disableComponents } from "../functions/disableComponents.js";
 
 export class SandboxListener extends Listener {
-  public constructor(context: Listener.Context, options: Listener.Options) {
+  public constructor(context: Listener.LoaderContext, options: Listener.Options) {
     super(context, {
       ...options,
       once: false,
@@ -15,18 +23,18 @@ export class SandboxListener extends Listener {
   public async run(interaction: Interaction) {
     if (!interaction.isButton() || !interaction.customId.startsWith("sb:")) return;
 
-    const { guild, channel } = interaction;
+    const { guild } = interaction;
     if (!interaction.inCachedGuild()) throw new Error("Sandbox button found outside of a cached guild.");
-    if (!channel?.isTextBased()) throw new Error("Channel is null or not text-based.");
+    if (!interaction.channel?.isTextBased()) throw new Error("Channel is null or not text-based.");
     if (!isGuildMember(interaction.member)) throw new Error("interaction.member is not cached.");
     if (guild?.ownerId !== interaction.client.user.id) {
       return await interaction.reply({
-        content: "Please transfer ownership back to the bot to use these buttons.",
-        ephemeral: true,
+        content: "These buttons no longer function as the bot no longer owns the server.",
+        flags: MessageFlags.Ephemeral,
       });
     }
 
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
     switch (interaction.customId) {
       case "sb:admin": {
@@ -71,7 +79,7 @@ export class SandboxListener extends Listener {
 
         return await interaction.followUp({
           content: `Invites for this server have been ${isInvitesDisabled ? "enabled" : "disabled"}.`,
-          ephemeral: true,
+          flags: MessageFlags.Ephemeral,
         });
       }
 
@@ -95,7 +103,7 @@ export class SandboxListener extends Listener {
         });
 
         try {
-          const buttonInteraction = await channel.awaitMessageComponent({
+          const buttonInteraction = await interaction.channel.awaitMessageComponent({
             filter: (i) => i.customId === `confirm_delete:${interaction.id}`,
             time: 15_000,
           });

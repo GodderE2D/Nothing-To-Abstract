@@ -1,6 +1,6 @@
 import { ChatInputCommand } from "@sapphire/framework";
 import { Subcommand } from "@sapphire/plugin-subcommands";
-import { time } from "discord.js";
+import { MessageFlags, time } from "discord.js";
 import ms from "ms";
 
 import { botGuests, env } from "../index.js";
@@ -85,7 +85,7 @@ export class GuestCommand extends Subcommand {
         botGuests
           .map((expiresAt, userId) => `- <@${userId}> (expires ${expiresAt ? time(expiresAt, "R") : "at session end"})`)
           .join("\n") || "No guests found.",
-      ephemeral: hide,
+      flags: hide ? MessageFlags.Ephemeral : undefined,
     });
   }
 
@@ -95,7 +95,10 @@ export class GuestCommand extends Subcommand {
     const hide = interaction.options.getBoolean("hide") ?? true;
 
     if (env.BOT_OWNER_IDS.split(",").includes(user.id)) {
-      return await interaction.reply({ content: `${user} is already a bot owner.`, ephemeral: hide });
+      return await interaction.reply({
+        content: `${user} is already a bot owner.`,
+        flags: hide ? MessageFlags.Ephemeral : undefined,
+      });
     }
 
     botGuests.set(user.id, expires ? new Date(Date.now() + expires) : null);
@@ -106,7 +109,7 @@ export class GuestCommand extends Subcommand {
           ? `${time(new Date(Date.now() + expires))} (${time(new Date(Date.now() + expires), "R")})`
           : "session end"
       }.\n**⚠️ Warning: Guests can run all commands, including eval!**`,
-      ephemeral: hide,
+      flags: hide ? MessageFlags.Ephemeral : undefined,
     });
   }
 
@@ -116,14 +119,17 @@ export class GuestCommand extends Subcommand {
     botGuests.sweep((date) => (date?.getTime() ?? Infinity) <= Date.now());
 
     if (!botGuests.has(user.id)) {
-      return await interaction.reply({ content: `${user} is not a guest.`, ephemeral: hide });
+      return await interaction.reply({
+        content: `${user} is not a guest.`,
+        flags: hide ? MessageFlags.Ephemeral : undefined,
+      });
     }
 
     botGuests.delete(user.id);
 
     return await interaction.reply({
       content: `${user} has been removed as a guest.`,
-      ephemeral: hide,
+      flags: hide ? MessageFlags.Ephemeral : undefined,
     });
   }
 
@@ -136,7 +142,7 @@ export class GuestCommand extends Subcommand {
 
     return await interaction.reply({
       content: `${originalSize} users have been removed as a guest.`,
-      ephemeral: hide,
+      flags: hide ? MessageFlags.Ephemeral : undefined,
     });
   }
 }

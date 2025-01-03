@@ -3,7 +3,7 @@ import { ChatInputCommandErrorPayload, Events, Listener } from "@sapphire/framew
 import { handleCommandError } from "../../functions/handleError.js";
 
 export class ChatInputCommandErrorListener extends Listener {
-  public constructor(context: Listener.Context, options: Listener.Options) {
+  public constructor(context: Listener.LoaderContext, options: Listener.Options) {
     super(context, {
       ...options,
       once: false,

@@ -1,5 +1,14 @@
 import { ChatInputCommand, Command } from "@sapphire/framework";
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ChannelType, EmbedBuilder, TextChannel, time } from "discord.js";
+import {
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  ChannelType,
+  EmbedBuilder,
+  MessageFlags,
+  TextChannel,
+  time,
+} from "discord.js";
 
 import colours from "../constants/colours.js";
 import generateName from "../functions/generateName.js";
@@ -42,16 +51,19 @@ export class SandboxCommand extends Command {
       return await interaction.reply({
         content:
           "The bot cannot create a server because the bot is in 10 or more servers. This is a Discord limitation.",
-        ephemeral: true,
+        flags: hide ? MessageFlags.Ephemeral : undefined,
       });
     }
 
     const template = await interaction.client.fetchGuildTemplate(templateUrl).catch(() => undefined);
     if (!template) {
-      return await interaction.reply({ content: `You provided an invalid server template.`, ephemeral: true });
+      return await interaction.reply({
+        content: `You provided an invalid server template.`,
+        flags: hide ? MessageFlags.Ephemeral : undefined,
+      });
     }
 
-    await interaction.deferReply({ ephemeral: hide });
+    await interaction.deferReply({ flags: hide ? MessageFlags.Ephemeral : undefined });
 
     const guild = await template.createGuild(name, interaction.client.user.displayAvatarURL({ forceStatic: true }));
 

@@ -19,6 +19,8 @@ export function prepareInteractions(ctx: Context) {
 }
 
 export async function button(ctx: Context) {
+  if (!ctx.channel?.isSendable()) throw new Error("Cannot send messages in the channel");
+
   const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
     new ButtonBuilder().setCustomId("test-button").setLabel("Test button").setStyle(ButtonStyle.Primary),
   );
@@ -27,6 +29,8 @@ export async function button(ctx: Context) {
 }
 
 export async function menu(ctx: Context) {
+  if (!ctx.channel?.isSendable()) throw new Error("Cannot send messages in the channel");
+
   const row = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
     new StringSelectMenuBuilder().setCustomId("test-menu").setOptions({ label: "Test option", value: "test-option" }),
   );
