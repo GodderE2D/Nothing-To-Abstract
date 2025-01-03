@@ -12,7 +12,7 @@
     "build:dev": "tsc --watch",
     "lint": "eslint --fix .",
     "lint:check": "eslint .",
-    "format": "prettier .",
+    "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
   "repository": {
